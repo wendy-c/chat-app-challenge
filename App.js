@@ -8,7 +8,8 @@ import { loadData } from "./store";
 const Container = styled.div`display: flex;`;
 
 const mapStateToProps = state => ({
-  store: state
+  users: state.users,
+  messages: state.messages
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -20,17 +21,12 @@ class App extends Component {
 
   componentWillMount() {
     // pass data into redux store
-    this.props.loadData({ users, messages });
+    this.props.loadData({ users, messages, sentinel: false });
   }
 
-  findMostRecent = user => {
-    console.log(Object.keys(user.chats)[0]);
-    return Object.keys(user.chats)[0];
-  };
-
   render() {
-    const { store } = this.props;
-    if (Object.keys(store).length === 0) {
+    const { users, messages } = this.props;
+    if (!users) {
       console.log("loading...");
       return <h1>Loading</h1>;
     }
@@ -39,13 +35,13 @@ class App extends Component {
       <Container>
         <ChatWindow
           activeUser="1"
-          userData={store.users[1]}
-          mostRecent={store.users[1].chats[1]}
+          userData={users[1]}
+          mostRecent={users[1].chats[0]}
         />
         <ChatWindow
           activeUser="0"
-          userData={store.users[0]}
-          mostRecent={store.users[0].chats[0]}
+          userData={users[0]}
+          mostRecent={users[0].chats[0]}
         />
       </Container>
     );
