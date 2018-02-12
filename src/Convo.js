@@ -98,25 +98,20 @@ class Convo extends Component {
   };
 
   handleClick = event => {
-    console.log("listening", event.target.type);
     if (event.key !== "Enter" && event.target.type === "text") {
       return;
     }
     const {
-      messages,
       chatId,
       activeUsername,
       typingUsers,
-      isTyping,
       sentinel
     } = this.props;
-    const currentChat = messages[chatId - 1];
     const timestamp = moment().format("llll");
     const newTypingUsers =
       typingUsers.length === 1
         ? []
         : typingUsers.filter(user => user !== activeUsername);
-    console.log("utc time", timestamp);
 
     const newMessage = {
       sentFrom: activeUsername,
@@ -159,7 +154,7 @@ class Convo extends Component {
         </GroupContainer>
         <MessageContainer>
           {content.map(message => (
-            <Message message={message} activeUsername={activeUsername} />
+            <Message key={message.text} message={message} activeUsername={activeUsername} />
           ))}
         </MessageContainer>
         <TypingBubble visibility={typingBubble}>&#8226;&#8226;&#8226;</TypingBubble>

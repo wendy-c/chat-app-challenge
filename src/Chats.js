@@ -45,7 +45,7 @@ const Chats = ({ Icon, activeUsername, chatId, usersInChat, content, handleConvo
   const timeago = moment(content.time, "llll").fromNow();
   return (
     <Container onClick={handleConvoWindowChange(chatId, activeUsername)}>
-      <div style={{width: "30%"}}><Icon>{upperInitial}</Icon></div>
+      <IconWrapper><Icon>{upperInitial}</Icon></IconWrapper>
       <TextContainer>
         <ChatTitle>
         <span>{`${upperInitial}${recipient[0].slice(1)}`}</span>

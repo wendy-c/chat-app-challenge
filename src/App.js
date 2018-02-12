@@ -29,14 +29,13 @@ class App extends Component {
 
   handleConvoWindowChange = (chatId, activeUsername) => event => {
     const chatWindow = activeUsername === "laura" ? "chat2" : "chat1";
-    const userId = activeUsername === "laura" ? "0" : "1";
     this.setState({
       [chatWindow]: chatId
     })
   }
 
   render() {
-    const { users, messages } = this.props;
+    const { users } = this.props;
     if (!users) {
       return <h1>Loading</h1>;
     }
