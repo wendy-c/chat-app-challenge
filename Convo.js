@@ -5,10 +5,23 @@ import styled from "styled-components";
 import { loadData, addMessage } from "./store";
 import Message from "./Message";
 
+const Container = styled.div`
+  display: flex; 
+  justify-content: flex-start; 
+  flex-direction: column;
+`;
+
 const GroupContainer = styled.div`
   background-color: #efefef;
   font-size: 1em;
   padding: 0.5em;
+  flex-grow: 0;
+  flex-shrink: 0;
+`;
+
+const MessageContainer = styled.div`
+  height: 73vh;
+  overflow: scroll;
 `;
 
 const SmallText = styled.span`
@@ -16,34 +29,31 @@ const SmallText = styled.span`
   padding-right: 0.2em;
 `;
 
-const PostContainer = styled.div`
-  position: absolute;
-  bottom: 0;
-`;
-
 const InputContainer = styled.div`
- width: 100%;
  display: flex;
+ width: 100%;
 `;
 
 const Input = styled.input`
   height: 1rem;
-  flex: 5;
+  width: 100%;
 `;
 
 const SendBtn = styled.span`
   background-color: ${props => props.color};
   color: #fff;
   padding: 0.1em;
-  flex: 1;
 `;
 
 const TypingBubble = styled.span`
+  margin: 0.2em;
   color: #fff;
   background-color: #8f8f8f;
   font-size: 1.5em;
   padding: 0 0.3em;
   border-radius: 25px;
+  width: 1.7rem;
+  visibility: ${props => props.visibility};
 `;
 
 const mapStateToProps = state => ({
@@ -140,35 +150,32 @@ class Convo extends Component {
     const upperInitial = recipient[0][0].toUpperCase();
     const content = messages[chatId - 1].messages;
     const anyoneTyping = isTyping && typingUsers.includes(recipient[0]);
-
+    const typingBubble = anyoneTyping ? "visable" : "hidden";
     return (
-      <div>
+      <Container>
         <GroupContainer>
           <SmallText>To:</SmallText>
           {`${upperInitial}${recipient[0].slice(1)}`}
         </GroupContainer>
-        <div>
+        <MessageContainer>
           {content.map(message => (
             <Message message={message} activeUsername={activeUsername} />
           ))}
-        </div>
-        <PostContainer>
-          {anyoneTyping && <TypingBubble>&#8226;&#8226;&#8226;</TypingBubble>}
-          <InputContainer>
-            <Input
-              type="text"
-              row="5"
-              name="message"
-              value={this.state.input}
-              onChange={this.handleChange}
-              onKeyPress={this.handleClick}
-            />
-            <SendBtn type="click" onClick={this.handleClick} color={this.state.input.length > 0 ? "#8f8f8f" : "#efefef"}>
-              SEND
-            </SendBtn>
-          </InputContainer>
-        </PostContainer>
-      </div>
+        </MessageContainer>
+        <TypingBubble visibility={typingBubble}>&#8226;&#8226;&#8226;</TypingBubble>
+        <InputContainer>
+          <Input
+            type="text"
+            name="message"
+            value={this.state.input}
+            onChange={this.handleChange}
+            onKeyPress={this.handleClick}
+          />
+          <SendBtn type="click" onClick={this.handleClick} color={this.state.input.length > 0 ? "#8f8f8f" : "#efefef"}>
+            SEND
+          </SendBtn>
+        </InputContainer>
+      </Container>
     );
   }
 }

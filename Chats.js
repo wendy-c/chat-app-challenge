@@ -11,11 +11,11 @@ const Container = styled.div`
 `;
 
 const TextContainer = styled.div`
+  flex-grow: 7;
+  padding-left: 0.5em;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  width: 70%;
-  padding-left: 0.1em;
 `;
 
 const ChatTitle = styled.div`
@@ -31,6 +31,14 @@ const SmallText = styled.span`
   padding-right: 0.3em;
 `;
 
+const Brief = styled.span`
+  font-size: 0.7em;
+`;
+
+const IconWrapper = styled.div`
+  flex-grow: 3;
+`;
+
 const Chats = ({ Icon, activeUsername, chatId, usersInChat, content, handleConvoWindowChange }) => {
   const recipient = usersInChat.filter(user => user !== activeUsername);
   const upperInitial = recipient[0][0].toUpperCase();
@@ -43,7 +51,7 @@ const Chats = ({ Icon, activeUsername, chatId, usersInChat, content, handleConvo
         <span>{`${upperInitial}${recipient[0].slice(1)}`}</span>
         <SmallText>{timeago}</SmallText>
         </ChatTitle>
-        <div style={{fontSize: "0.7em"}}>{content.text}</div>
+        <Brief>{content.text}</Brief>
       </TextContainer>
     </Container>
   );
