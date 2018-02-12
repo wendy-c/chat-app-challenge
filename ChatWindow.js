@@ -8,8 +8,22 @@ const Container = styled.div`
   margin: 0 1px;
   width: 50%;
   height: 100vh;
-  border: 1px solid #efefef;
+  border: 1px solid #8f8f8f;
   border-radius: 8px;
+  box-shadow: 0.2em 0.2em 0.2em #efefef;
+`;
+
+const WindowControl = styled.div`
+  height: 2vh;
+  display: flex;
+`;
+
+const SmallCircles = styled.span`
+  height: 0.7em;
+  width: 0.7em;
+  margin: 0.2em;
+  border-radius: 100%;
+  background-color: ${props => props.color}
 `;
 
 const Row = styled.div`display: flex;`;
@@ -20,7 +34,7 @@ const RowStyled = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 1em;
-  height: 10vh;
+  height: 8vh;
 `;
 
 const ChatsContainer = styled.div`
@@ -39,9 +53,9 @@ const ConvoContainer = styled.div`
 `;
 
 const Icon = styled.div`
-  width: 3rem;
-  height: 3rem;
-  background-color: #d9f0ff;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #5c59ba;
   border-radius: 100%;
   display: flex;
   justify-content: center;
@@ -68,18 +82,36 @@ const AbsCenter = styled.div`
   align-items: center;
 `;
 
+const Logo = styled.i`
+  color: #5c59ba;
+  font-size: 2em;
+  padding-right: 0.1em;
+`;
+
+const Title = styled.h2`
+  color: #5c59ba;
+`;
+
 const mapStateToProps = state => ({
   messages: state.messages,
   users: state.users
 });
 
-const ChatWindow = ({ activeUser, users, userData, mostRecent, messages }) => {
+const ChatWindow = ({ activeUser, users, userData, mostRecent, messages, handleConvoWindowChange }) => {
   const currentChat = messages[mostRecent - 1];
   const upperInitial = userData.name[0].toUpperCase();
   return (
     <Container>
+      <WindowControl>
+      <SmallCircles color="#fc615d"/>
+      <SmallCircles color="#fdbc40"/>
+      <SmallCircles color="#34c84a"/>
+      </WindowControl>
       <RowStyled>
-      <h3>Slacker</h3>
+      <AbsCenter>
+      <Logo className="fas fa-comments"></Logo>
+      <Title>Slacker</Title>
+      </AbsCenter>
       <AbsCenter>
       <Bullet>&#8226;</Bullet> 
       <SmallText>Online</SmallText>
@@ -97,6 +129,9 @@ const ChatWindow = ({ activeUser, users, userData, mostRecent, messages }) => {
               activeUsername={userData.name}
               usersInChat={convo.users}
               content={convo.messages[0]}
+              handleConvoWindowChange={handleConvoWindowChange}
+              chatId={chatId}
+              Icon={Icon}
             />
           );
         })}

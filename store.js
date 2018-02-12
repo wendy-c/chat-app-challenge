@@ -16,7 +16,6 @@ const reducer = (state = init, action) => {
       newContentArray = [...newContentArray, ...[action.payload.newMessage]];
       let updatedMessages = Object.assign(state.messages, {});
       updatedMessages[action.payload.chatId - 1].messages = newContentArray;
-      console.log("in redux", updatedMessages, newContentArray)
       return {
         ...state,
         messages: updatedMessages

@@ -17,17 +17,27 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class App extends Component {
-  state = {};
+  state = {
+    chat1: users[1].chats[0],
+    chat2: users[0].chats[0]
+  };
 
   componentWillMount() {
     // pass data into redux store
     this.props.loadData({ users, messages, sentinel: false });
   }
 
+  handleConvoWindowChange = (chatId, activeUsername) => event => {
+    const chatWindow = activeUsername === "laura" ? "chat2" : "chat1";
+    const userId = activeUsername === "laura" ? "0" : "1";
+    this.setState({
+      [chatWindow]: chatId
+    })
+  }
+
   render() {
     const { users, messages } = this.props;
     if (!users) {
-      console.log("loading...");
       return <h1>Loading</h1>;
     }
 
@@ -36,12 +46,14 @@ class App extends Component {
         <ChatWindow
           activeUser="1"
           userData={users[1]}
-          mostRecent={users[1].chats[0]}
+          mostRecent={this.state.chat1}
+          handleConvoWindowChange={this.handleConvoWindowChange}
         />
         <ChatWindow
           activeUser="0"
           userData={users[0]}
-          mostRecent={users[0].chats[0]}
+          mostRecent={this.state.chat2}
+          handleConvoWindowChange={this.handleConvoWindowChange}
         />
       </Container>
     );
